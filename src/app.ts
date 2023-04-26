@@ -22,7 +22,7 @@ const users = [
     gender: "female",
   },
   {
-    name: "Ielizavetta",
+    name: "Elizavetta",
     age: 35,
     gender: "female",
   },
