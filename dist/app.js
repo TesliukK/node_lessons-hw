@@ -36,6 +36,11 @@ app.get("/users", async (req, res) => {
     const users = await users_model_1.User.find();
     res.json(users);
 });
+app.get("/users/:userId", async (req, res) => {
+    const { userId } = req.params;
+    const user = await users_model_1.User.findById(userId);
+    return res.json(user);
+});
 app.post("/users", async (req, res) => {
     const body = req.body;
     const user = await users_model_1.User.create(body);
@@ -49,6 +54,6 @@ app.get("/welcome", (req, res) => {
 });
 const PORT = 5100;
 app.listen(PORT, () => {
-    mongoose.connect("mongodb://127.0.0.1:27017/user");
+    mongoose.connect("mongodb://127.0.0.1:27017/user").then();
     console.log(`Server has started on PORT ${PORT} 🚀🚀🚀`);
 });

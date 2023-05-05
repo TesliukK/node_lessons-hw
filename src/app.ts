@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import * as mongoose from "mongoose";
 
 import { User } from "./models/users.model";
+import {IUser} from "./types/users.types";
 
 const app = express();
 
@@ -13,13 +14,16 @@ app.get("/users", async (req: Request, res: Response) => {
   res.json(users);
 });
 
-// app.get("/users/:userId", (req, res) => {
-//   const { userId } = req.params;
-//   const user = users[+userId];
-//
-//   res.json(user);
-// });
-//
+app.get(
+  "/users/:userId",
+  async (req: Request, res: Response): Promise<Response<IUser>> => {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+
+    return res.json(user);
+  }
+);
+
 app.post("/users", async (req, res) => {
   const body = req.body;
   const user = await User.create(body);
@@ -57,6 +61,6 @@ app.get("/welcome", (req, res) => {
 const PORT = 5100;
 
 app.listen(PORT, () => {
-  mongoose.connect("mongodb://127.0.0.1:27017/user");
+  mongoose.connect("mongodb://127.0.0.1:27017/user").then();
   console.log(`Server has started on PORT ${PORT} 🚀🚀🚀`);
 });
