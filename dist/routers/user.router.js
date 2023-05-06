@@ -11,9 +11,9 @@ router.get("/:userId", user_controller_1.userController.getById);
 router.post("/", user_controller_1.userController.create);
 router.put("/:userId", user_controller_1.userController.update);
 router.delete("/:userId", async (req, res) => {
-    const { userId } = req.params;
-    await users_model_1.User.deleteOne({ _id: userId });
-    res.status(200).json({
-        message: "User deleted",
-    });
+  const { userId } = req.params;
+  await users_model_1.User.deleteOne({ _id: userId });
+  res.status(200).json({
+    message: "User deleted",
+  });
 });
