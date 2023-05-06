@@ -1,6 +1,6 @@
 export enum EGenders {
-  male = "male",
   female = "female",
+  male = "male",
   mixed = "mixed",
 }
 export interface IUser {
