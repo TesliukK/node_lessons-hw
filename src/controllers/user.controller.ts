@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
 import { User } from "../models/users.model";
-import { ICommonResponse, IUser } from "../types/users.types";
+import { userService } from "../services/user.service";
+import { ICommonResponse, IMesssage } from "../types/common.types";
+import { IUser } from "../types/users.types";
 
 class UserController {
   public async getAll(
@@ -10,7 +12,7 @@ class UserController {
     next: NextFunction
   ): Promise<Response<IUser[]>> {
     try {
-      const users = await User.find();
+      const users = await userService.getAll();
       return res.json(users);
     } catch (e) {
       next(e);
@@ -24,7 +26,7 @@ class UserController {
   ): Promise<Response<IUser[]>> {
     try {
       const { userId } = req.params;
-      const user = await User.findById(userId);
+      const user = await userService.getById(userId);
       return res.json(user);
     } catch (e) {
       next(e);
@@ -73,7 +75,7 @@ class UserController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<ICommonResponse<IUser>>> {
+  ): Promise<Response<IMesssage>> {
     try {
       const { userId } = req.params;
 
