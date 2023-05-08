@@ -12,8 +12,15 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use("/users", user_router_1.userRouter);
+app.use((err, req, res, next) => {
+  const status = err.status;
+  return res.status(status).json({
+    message: err.message,
+    status,
+  });
+});
 const PORT = 5100;
 app.listen(PORT, () => {
-  mongoose_1.default.connect("mongodb://127.0.0.1:27017/sept-2022").then();
+  mongoose_1.default.connect("mongodb://127.0.0.1:27017/sept-2022");
   console.log(`Server has started on PORT ${PORT} 🚀🚀🚀`);
 });
