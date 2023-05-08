@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { User } from "../models/users.model";
 import { userService } from "../services/user.service";
-import { ICommonResponse, IMesssage } from "../types/common.types";
+import { ICommonResponse, IMessage } from "../types/common.types";
 import { IUser } from "../types/users.types";
 
 class UserController {
@@ -75,7 +75,7 @@ class UserController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<IMesssage>> {
+  ): Promise<Response<IMessage>> {
     try {
       const { userId } = req.params;
 
