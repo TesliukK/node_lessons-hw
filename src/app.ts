@@ -5,10 +5,6 @@ import { configs } from "./configs/config";
 import { userRouter } from "./routers/user.router";
 import { IError } from "./types/common.types";
 
-
-
-
-
 const app = express();
 
 app.use(express.json());
