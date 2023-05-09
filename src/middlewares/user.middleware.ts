@@ -19,12 +19,13 @@ class UserMiddleware {
       if (!user) {
         return next(new ApiError("Not found", 422));
       }
-
+      res.locals.user = user;
       next();
     } catch (e) {
       next(e);
     }
   }
+
   public async isUserValidCreate(
     req: Request,
     res: Response,
@@ -32,7 +33,6 @@ class UserMiddleware {
   ): Promise<void> {
     try {
       const { error, value } = UserValidator.createUser.validate(req.body);
-
       if (error) {
         return next(new ApiError(error.message, 400));
       }
@@ -42,6 +42,7 @@ class UserMiddleware {
       next(e);
     }
   }
+
   public async isUserIdValid(
     req: Request,
     res: Response,
@@ -52,6 +53,24 @@ class UserMiddleware {
         return next(new ApiError("id not valid", 400));
       }
 
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async isUserValidUpdate(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { error, value } = UserValidator.updateUser.validate(req.body);
+
+      if (error) {
+        return next(new ApiError(error.message, 400));
+      }
+      req.body = value;
       next();
     } catch (e) {
       next(e);

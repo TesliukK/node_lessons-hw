@@ -5,6 +5,12 @@ import { configs } from "./configs/config";
 import { userRouter } from "./routers/user.router";
 import { IError } from "./types/common.types";
 
+
+
+
+
+
+
 const app = express();
 
 app.use(express.json());
@@ -23,5 +29,6 @@ app.use((err: IError, req: Request, res: Response, next: NextFunction) => {
 
 app.listen(configs.PORT, async () => {
   await mongoose.connect(configs.DB_URL);
+  // eslint-disable-next-line
   console.log(`Server has started on PORT ${configs.PORT} 🚀🚀🚀`);
 });

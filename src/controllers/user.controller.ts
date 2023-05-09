@@ -25,8 +25,7 @@ class UserController {
     next: NextFunction
   ): Promise<Response<IUser[]>> {
     try {
-      const { userId } = req.params;
-      const user = await userService.getById(userId);
+      const { user } = res.locals;
       return res.json(user);
     } catch (e) {
       next(e);
@@ -41,7 +40,6 @@ class UserController {
     try {
       const body = req.body;
       const user = await User.create(body);
-
       return res.status(201).json({
         message: "User created!",
         data: user,
@@ -55,17 +53,15 @@ class UserController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<ICommonResponse<IUser>>> {
+  ): Promise<Response<IUser>> {
     try {
       const { userId } = req.params;
-      const user = req.body;
-
-      const updatedUser = await User.updateOne({ _id: userId }, { ...user });
-
-      return res.status(200).json({
-        message: "User updated",
-        data: updatedUser,
-      });
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { ...req.body },
+        { new: true }
+      );
+      return res.status(201).json(updatedUser);
     } catch (e) {
       next(e);
     }
@@ -75,15 +71,11 @@ class UserController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<ICommonResponse<IUser>>> {
+  ): Promise<Response<void>> {
     try {
       const { userId } = req.params;
-
       await User.deleteOne({ _id: userId });
-
-      return res.status(200).json({
-        message: "User deleted",
-      });
+      return res.sendStatus(204);
     } catch (e) {
       next(e);
     }
