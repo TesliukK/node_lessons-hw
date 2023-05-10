@@ -13,6 +13,7 @@ router.post(
 );
 router.post(
   "/login",
+  userMiddleware.isValidLogin,
   userMiddleware.getDynamicallyOrThrow("email"),
   authController.login
 );
