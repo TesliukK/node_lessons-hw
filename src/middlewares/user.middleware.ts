@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { isObjectIdOrHexString } from "mongoose";
 
-import { ApiError } from "../errors/api.error";
-import { User } from "../models/users.model";
+import { ApiError } from "../errors";
+import { User } from "../models";
+import { IRequest } from "../types";
 import { UserValidator } from "../validators";
 
 class UserMiddleware {
@@ -26,7 +27,32 @@ class UserMiddleware {
     }
   }
 
-  public async isUserValidCreate(
+  public getDynamicallyAndThrow(
+    fieldName: string,
+    from = "body",
+    dbField = fieldName
+  ) {
+    return async (req: IRequest, res: Response, next: NextFunction) => {
+      try {
+        const fieldValue = req[from][fieldName];
+
+        const user = await User.findOne({ [dbField]: fieldValue });
+
+        if (user) {
+          throw new ApiError(
+            `User with email ${fieldName} ${fieldValue} already exist`,
+            422
+          );
+        }
+        next();
+      } catch (e) {
+        next(e);
+      }
+    };
+  }
+
+  //validators
+  public async isValidCreate(
     req: Request,
     res: Response,
     next: NextFunction
@@ -43,7 +69,7 @@ class UserMiddleware {
     }
   }
 
-  public async isUserIdValid(
+  public async isIdValid(
     req: Request,
     res: Response,
     next: NextFunction
@@ -59,7 +85,7 @@ class UserMiddleware {
     }
   }
 
-  public async isUserValidUpdate(
+  public async isValidUpdate(
     req: Request,
     res: Response,
     next: NextFunction

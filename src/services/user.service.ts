@@ -1,6 +1,6 @@
-import { ApiError } from "../errors/api.error";
-import { User } from "../models/users.model";
-import { IUser } from "../types/users.types";
+import { ApiError } from "../errors";
+import { User } from "../models";
+import { IUser } from "../types";
 
 class UserService {
   public async getAll(): Promise<IUser[]> {
