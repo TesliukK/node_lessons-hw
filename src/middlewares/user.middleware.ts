@@ -39,9 +39,11 @@ class UserMiddleware {
         const user = await User.findOne({ [dbField]: fieldValue });
 
         if (user) {
-          throw new ApiError(
-            `User with email ${fieldName} ${fieldValue} already exist`,
-            409
+          return next(
+            new ApiError(
+              `User with email ${fieldName} ${fieldValue} already exist`,
+              409
+            )
           );
         }
         next();
@@ -63,7 +65,7 @@ class UserMiddleware {
         const user = await User.findOne({ [dbField]: fieldValue });
 
         if (!user) {
-          throw new ApiError(`User not found`, 422);
+          return next(new ApiError(`User not found`, 422));
         }
 
         req.res.locals = user;
