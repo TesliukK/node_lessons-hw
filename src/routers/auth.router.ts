@@ -11,6 +11,11 @@ router.post(
   userMiddleware.getDynamicallyAndThrow("email", "body"),
   authController.register
 );
-router.post("/login", authController.login);
+router.post(
+  "/login",
+  userMiddleware.getDynamicallyOrThrow("email"),
+  authController.login
+);
+router.post("/login");
 
 export const authRouter = router;

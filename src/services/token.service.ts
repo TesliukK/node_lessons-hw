@@ -1,7 +1,9 @@
 import * as jwt from "jsonwebtoken";
 
+import { ITokenPair, ITokenPayload } from "../types";
+
 class TokenService {
-  public async generateTokenPair(payload: Record<string, any>) {
+  public generateTokenPair(payload: ITokenPayload): ITokenPair {
     const accessToken = jwt.sign(payload, "JWT_ACCESS_SECRET", {
       expiresIn: "15m",
     });

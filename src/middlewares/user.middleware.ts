@@ -41,9 +41,33 @@ class UserMiddleware {
         if (user) {
           throw new ApiError(
             `User with email ${fieldName} ${fieldValue} already exist`,
-            422
+            409
           );
         }
+        next();
+      } catch (e) {
+        next(e);
+      }
+    };
+  }
+
+  public getDynamicallyOrThrow(
+    fieldName: string,
+    from = "body",
+    dbField = fieldName
+  ) {
+    return async (req: IRequest, res: Response, next: NextFunction) => {
+      try {
+        const fieldValue = req[from][fieldName];
+
+        const user = await User.findOne({ [dbField]: fieldValue });
+
+        if (!user) {
+          throw new ApiError(`User not found`, 422);
+        }
+
+        req.res.locals = user;
+
         next();
       } catch (e) {
         next(e);
