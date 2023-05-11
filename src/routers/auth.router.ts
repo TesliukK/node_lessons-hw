@@ -11,17 +11,27 @@ router.post(
   userMiddleware.getDynamicallyAndThrow("email", "body"),
   authController.register
 );
+
 router.post(
   "/login",
   userMiddleware.isValidLogin,
   userMiddleware.getDynamicallyOrThrow("email"),
   authController.login
 );
+
+router.post(
+  "/password/change",
+  userMiddleware.isValidChangePassword,
+  authMiddleware.checkAccessToken,
+  authController.changePassword
+);
+
 router.post(
   "/refresh",
   authMiddleware.checkRefreshToken,
   authController.refresh
 );
+
 router.post("/login");
 
 export const authRouter = router;
