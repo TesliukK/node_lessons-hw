@@ -3,7 +3,7 @@ import { isObjectIdOrHexString } from "mongoose";
 
 import { ApiError } from "../errors";
 import { User } from "../models";
-import { IRequest } from "../types";
+import { IUser } from "../types";
 import { UserValidator } from "../validators";
 
 class UserMiddleware {
@@ -20,7 +20,7 @@ class UserMiddleware {
       if (!user) {
         return next(new ApiError("Not found", 422));
       }
-      res.locals.user = user;
+      res.locals = { user };
       next();
     } catch (e) {
       next(e);
@@ -29,10 +29,10 @@ class UserMiddleware {
 
   public getDynamicallyAndThrow(
     fieldName: string,
-    from = "body",
-    dbField = fieldName
+    from: "body" | "query" | "params" = "body",
+    dbField: keyof IUser = "email"
   ) {
-    return async (req: IRequest, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
       try {
         const fieldValue = req[from][fieldName];
 
@@ -55,10 +55,10 @@ class UserMiddleware {
 
   public getDynamicallyOrThrow(
     fieldName: string,
-    from = "body",
-    dbField = fieldName
+    from: "body" | "query" | "params" = "body",
+    dbField: keyof IUser = "email"
   ) {
-    return async (req: IRequest, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
       try {
         const fieldValue = req[from][fieldName];
 
@@ -68,7 +68,7 @@ class UserMiddleware {
           return next(new ApiError(`User not found`, 422));
         }
 
-        req.res.locals = user;
+        req.res.locals = { user };
 
         next();
       } catch (e) {
