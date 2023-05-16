@@ -1,12 +1,7 @@
-import { EEmailActions } from "./email.constants";
+import { EEmailActions } from "../enums";
 
-export const smsTemplates = {
-  [EEmailActions.WELCOME]: {
-    subject: "Great to see",
-    templateName: "register",
-  },
-  [EEmailActions.FORGOT_PASSWORD]: {
-    subject: "We control your password",
-    templateName: "forgot_password",
-  },
+export const smsTemplates: { [key: string]: string } = {
+  [EEmailActions.WELCOME]: "Great to see",
+
+  [EEmailActions.FORGOT_PASSWORD]: "We control your password",
 };
