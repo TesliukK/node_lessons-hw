@@ -31,12 +31,12 @@ router.post(
   authController.changePassword
 );
 
+router.post("/password/forgot", userMiddleware.getDynamicallyOrThrow("email"));
+
 router.post(
   "/refresh",
   authMiddleware.checkRefreshToken,
   authController.refresh
 );
-
-router.post("/login");
 
 export const authRouter = router;
