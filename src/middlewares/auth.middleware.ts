@@ -55,31 +55,25 @@ class AuthMiddleware {
     }
   }
 
-  public async checkActionForgotToken(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
-    try {
-      const actionToken = req.params.token;
-      if (!actionToken) {
-        return next(new ApiError("No token", 401));
-      }
-      const jwtPayload = tokenService.checkActionToken(
-        actionToken,
-        EActionTokenType.forgot
-      );
-      const tokenInfo = await Action.findOne({ actionToken });
+  public checkActionToken(type: EActionTokenType) {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const actionToken = req.params.token;
+        if (!actionToken) {
+          return next(new ApiError("No token", 401));
+        }
+        const jwtPayload = tokenService.checkActionToken(actionToken, type);
+        const tokenInfo = await Action.findOne({ actionToken });
 
-      if (!tokenInfo) {
-        return next(new ApiError("Token not valid", 401));
+        if (!tokenInfo) {
+          return next(new ApiError("Token not valid", 401));
+        }
+        req.res.locals = { tokenInfo, jwtPayload };
+        next();
+      } catch (e) {
+        next(e);
       }
-      req.res.locals = { tokenInfo, jwtPayload };
-      next();
-    } catch (e) {
-      next(e);
-    }
+    };
   }
 }
-
 export const authMiddleware = new AuthMiddleware();
