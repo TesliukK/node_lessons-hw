@@ -7,7 +7,6 @@ import { ApiError } from "./errors";
 import { authRouter, userRouter } from "./routers";
 
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
