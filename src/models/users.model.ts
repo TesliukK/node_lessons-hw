@@ -1,11 +1,13 @@
 import { model, Schema } from "mongoose";
 
 import { EGenders, EUserStatus } from "../enums";
+import { IUser } from "../types";
 
 const userSchema = new Schema(
   {
     name: {
       type: String,
+      index: true,
     },
     email: {
       type: String,
@@ -17,6 +19,10 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+    },
+    age: {
+      type: Number,
+      required: false,
     },
     gender: {
       type: String,
@@ -34,4 +40,4 @@ const userSchema = new Schema(
   }
 );
 
-export const User = model("user", userSchema);
+export const User = model<IUser>("user", userSchema);
