@@ -1,14 +1,6 @@
 import { ApiError } from "../errors";
 import { User } from "../models";
-import { IUser } from "../types";
-
-interface IPaginationResponse<T> {
-  page: number;
-  perPage: number;
-  itemsCount: number;
-  itemsFound: number;
-  data: T[];
-}
+import { IPaginationResponse, IQuery, IUser } from "../types";
 
 class UserService {
   public async getAll(): Promise<IUser[]> {
@@ -20,7 +12,7 @@ class UserService {
   }
 
   public async getWithPagination(
-    query: any
+    query: IQuery
   ): Promise<IPaginationResponse<IUser>> {
     try {
       const queryStr = JSON.stringify(query);
