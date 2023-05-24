@@ -11,8 +11,9 @@ class CarController {
     next: NextFunction
   ): Promise<Response<ICar[]>> {
     try {
-      const { car } = res.locals;
-      return res.json(car);
+      const { car, jwtPayload } = res.locals;
+      const result = await carService.getById(jwtPayload._id, car._id);
+      return res.json(result);
     } catch (e) {
       next(e);
     }
