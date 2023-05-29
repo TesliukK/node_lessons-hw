@@ -17,7 +17,7 @@ class CarMiddleware {
       if (!car) {
         return next(new ApiError("Not found", 422));
       }
-      res.locals.car = car ;
+      res.locals.car = car;
       next();
     } catch (e) {
       next(e);
