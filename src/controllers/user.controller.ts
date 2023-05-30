@@ -72,8 +72,9 @@ class UserController {
   ): Promise<Response<void>> {
     try {
       const { userId } = req.params;
-      // const user = await userService.uploadAvatar(userId);
 
+      // const user = await userService.uploadAvatar(userId);
+      console.log(req.files);
       return res.status(201).json(userId);
     } catch (e) {
       next(e);

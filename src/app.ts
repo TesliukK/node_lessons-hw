@@ -10,7 +10,7 @@ import { authRouter, carRouter, userRouter } from "./routers";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload);
+app.use(fileUpload());
 
 app.use("/cars", carRouter);
 app.use("/users", userRouter);
