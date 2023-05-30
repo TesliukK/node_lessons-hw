@@ -64,6 +64,21 @@ class UserController {
       next(e);
     }
   }
+
+  public async uploadAvatar(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<void>> {
+    try {
+      const { userId } = req.params;
+      // const user = await userService.uploadAvatar(userId);
+
+      return res.status(201).json(userId);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export const userController = new UserController();

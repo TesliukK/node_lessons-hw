@@ -42,6 +42,6 @@ router.put(
   authMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("userId"),
   userMiddleware.getByIdAndThrow,
-  userController.update
+  userController.uploadAvatar
 );
 export const userRouter = router;

@@ -25,7 +25,7 @@ class S3Service {
     await this.client.send(
       new PutObjectCommand({
         Bucket: configs.AWS_S3_BUCKET_NAME,
-        Key: "", //TODO
+        Key: filePath,
         Body: file.data,
         ContentType: file, //TODO
         ACL: configs.AWS_S3_ACL,
