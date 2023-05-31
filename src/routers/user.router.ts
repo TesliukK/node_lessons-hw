@@ -4,6 +4,7 @@ import { userController } from "../controllers";
 import {
   authMiddleware,
   commonMiddleware,
+  fileMiddleware,
   userMiddleware,
 } from "../middlewares";
 import { UserValidator } from "../validators";
@@ -41,6 +42,7 @@ router.put(
   "/:userId/avatar",
   authMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("userId"),
+  fileMiddleware.isAvatarValid,
   userMiddleware.getByIdAndThrow,
   userController.uploadAvatar
 );
